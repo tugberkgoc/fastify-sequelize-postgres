@@ -1,19 +1,21 @@
 const Car = require('../models').Car;
 const User = require('../models').User;
-const Mahalle = require('../models').Mahalle;
+const County = require('../models').County;
 
 module.exports = {
   list(req, res) {
     return User
     .findAll({
-      include: [{
-        model: Mahalle,
-        as: 'mahalles',
-      },
+      include: [
+        {
+          model: County,
+          as: 'counties',
+        },
         {
           model: Car,
           as: 'cars'
-        }],
+        }
+      ],
     })
     .then((users) => res.status(200).send(users))
     .catch((error) => {
@@ -23,7 +25,20 @@ module.exports = {
 
   getById(req, res) {
     return User
-    .findById(req.params.id)
+    .findById(req.params.id,
+      {
+        include: [
+          {
+            model: County,
+            as: 'counties',
+          },
+          {
+            model: Car,
+            as: 'cars'
+          }
+        ],
+      }
+    )
     .then((user) => {
       if (!user) {
         return res.status(404).send({

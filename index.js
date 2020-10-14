@@ -7,7 +7,8 @@ const {sequelize} = require('./models/index')
 
 // Import Routes
 const userRoutes = require('./routes/user')
-const mahalleRoutes = require('./routes/mahalle')
+const countyRoutes = require('./routes/county')
+const cityRoutes = require('./routes/city')
 const carRoutes = require('./routes/car')
 
 // Declare a route
@@ -28,7 +29,10 @@ fastify.listen(3000, (err, address) => {
 userRoutes.forEach((route, index) => {
   fastify.route(route)
 })
-mahalleRoutes.forEach((route, index) => {
+countyRoutes.forEach((route, index) => {
+  fastify.route(route)
+})
+cityRoutes.forEach((route, index) => {
   fastify.route(route)
 })
 carRoutes.forEach((route, index) => {

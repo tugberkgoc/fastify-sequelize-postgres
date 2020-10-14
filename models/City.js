@@ -1,20 +1,20 @@
 module.exports = (sequelize, DataTypes) => {
-  const Mahalle = sequelize.define(
-    'Mahalle',
+  const City = sequelize.define(
+    'City',
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'name'
       },
-      userId: {
+      countyId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         field: 'userId'
       },
     },
-    { tableName: 'mahalles'}
+    { tableName: 'cities'}
   )
 
-  return Mahalle
+  return City
 }

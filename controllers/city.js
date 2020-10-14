@@ -1,67 +1,67 @@
-const Mahalle = require('../models').Mahalle;
+const City = require('../models').City;
 
 module.exports = {
   list(req, res) {
-    return Mahalle
+    return City
     .findAll()
-    .then((mahalles) => res.status(200).send(mahalles))
+    .then((cities) => res.status(200).send(cities))
     .catch((error) => { res.status(400).send(error); });
   },
 
   getById(req, res) {
-    return Mahalle
+    return City
     .findById(req.params.id)
-    .then((mahalle) => {
-      if (!mahalle) {
+    .then((city) => {
+      if (!city) {
         return res.status(404).send({
-          message: 'Mahalle Not Found',
+          message: 'City Not Found',
         });
       }
-      return res.status(200).send(mahalle);
+      return res.status(200).send(city);
     })
     .catch((error) => res.status(400).send(error));
   },
 
   add(req, res) {
-    return Mahalle
+    return City
     .create({
       name: req.body.name,
-      userId: req.body.userId,
+      countyId: req.body.countyId,
     })
-    .then((mahalle) => res.status(201).send(mahalle))
+    .then((city) => res.status(201).send(city))
     .catch((error) => res.status(400).send(error));
   },
 
   update(req, res) {
-    return Mahalle
+    return City
     .findById(req.params.id)
-    .then(mahalle => {
-      if (!mahalle) {
+    .then(city => {
+      if (!city) {
         return res.status(404).send({
-          message: 'User Not Found',
+          message: 'City Not Found',
         });
       }
-      return mahalle
+      return city
       .update({
         name: req.body.name || user.name,
-        userId: req.body.userId || user.userId,
+        countyId: req.body.countyId || user.countyId,
       })
-      .then(() => res.status(200).send(mahalle))
+      .then(() => res.status(200).send(city))
       .catch((error) => res.status(400).send(error));
     })
     .catch((error) => res.status(400).send(error));
   },
 
   delete(req, res) {
-    return Mahalle
+    return City
     .findById(req.params.id)
-    .then(mahalle => {
-      if (!mahalle) {
+    .then(city => {
+      if (!city) {
         return res.status(400).send({
-          message: 'Mahalle Not Found',
+          message: 'City Not Found',
         });
       }
-      return Mahalle
+      return City
       .destroy()
       .then(() => res.status(204).send())
       .catch((error) => res.status(400).send(error));
