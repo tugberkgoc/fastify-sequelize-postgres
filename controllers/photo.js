@@ -1,65 +1,69 @@
-const {car} = require('../models');
+const {photo} = require('../models');
 
 module.exports = {
   list(req, res) {
-    return car
+    return photo
     .findAll()
-    .then((cars) => res.status(200).send(cars))
-    .catch((error) => { res.status(400).send(error); });
+    .then((photos) => res.status(200).send(photos))
+    .catch((error) => {
+      res.status(400).send(error);
+    });
   },
 
   getById(req, res) {
-    return car
+    return photo
     .findById(req.params.id)
-    .then((car) => {
-      if (!car) {
+    .then((photo) => {
+      if (!photo) {
         return res.status(404).send({
-          message: 'Car Not Found',
+          message: 'Photo Not Found',
         });
       }
-      return res.status(200).send(car);
+      return res.status(200).send(photo);
     })
     .catch((error) => res.status(400).send(error));
   },
 
   add(req, res) {
-    return car
+    return photo
     .create({
-      model: req.body.model
+      url: req.body.url,
+      name: req.body.name,
     })
-    .then((car) => res.status(201).send(car))
+    .then((photo) => res.status(201).send(photo))
     .catch((error) => res.status(400).send(error));
   },
 
   update(req, res) {
-    return car
+    return photo
     .findById(req.params.id)
-    .then(car => {
-      if (!car) {
+    .then(photo => {
+      if (!photo) {
         return res.status(404).send({
-          message: 'Car Not Found',
+          message: 'Photo Not Found',
         });
       }
-      return car
+      return photo
       .update({
-        model: req.body.model || user.model
+        url: req.body.url || photo.url,
+        name: req.body.name || photo.countyId,
       })
-      .then(() => res.status(200).send(car))
+      .then(() => res.status(200).send(photo))
       .catch((error) => res.status(400).send(error));
     })
     .catch((error) => res.status(400).send(error));
   },
 
   delete(req, res) {
-    return car
+    return photo
     .findById(req.params.id)
-    .then(car => {
-      if (!car) {
+    .then(photo => {
+      if (!photo) {
         return res.status(400).send({
-          message: 'Car Not Found',
+          message: 'Photo Not Found',
         });
       }
-      return car
+      return photo
       .destroy()
       .then(() => res.status(204).send())
       .catch((error) => res.status(400).send(error));

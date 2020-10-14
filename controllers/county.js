@@ -1,14 +1,12 @@
-const County = require('../models').County;
-const City = require('../models').City;
+const {county, city} = require('../models');
 
 module.exports = {
   list(req, res) {
-    return County
+    return county
     .findAll(
       {
         include: [{
-          model: City,
-          as: 'cities',
+          model: city,
         }]
       }
     )
@@ -17,11 +15,10 @@ module.exports = {
   },
 
   getById(req, res) {
-    return County
+    return county
     .findById(req.params.id, {
       include: [{
-        model: City,
-        as: 'cities',
+        model: city,
       }]
     })
     .then((county) => {
@@ -36,17 +33,17 @@ module.exports = {
   },
 
   add(req, res) {
-    return County
+    return county
     .create({
       name: req.body.name,
-      userId: req.body.userId,
+      cityId: req.body.cityId,
     })
     .then((county) => res.status(201).send(county))
     .catch((error) => res.status(400).send(error));
   },
 
   update(req, res) {
-    return County
+    return county
     .findById(req.params.id)
     .then(county => {
       if (!county) {
@@ -57,7 +54,7 @@ module.exports = {
       return county
       .update({
         name: req.body.name || user.name,
-        userId: req.body.userId || user.userId,
+        cityId: req.body.cityId || user.cityId,
       })
       .then(() => res.status(200).send(county))
       .catch((error) => res.status(400).send(error));
@@ -66,7 +63,7 @@ module.exports = {
   },
 
   delete(req, res) {
-    return County
+    return county
     .findById(req.params.id)
     .then(county => {
       if (!county) {
@@ -74,7 +71,7 @@ module.exports = {
           message: 'County Not Found',
         });
       }
-      return County
+      return county
       .destroy()
       .then(() => res.status(204).send())
       .catch((error) => res.status(400).send(error));

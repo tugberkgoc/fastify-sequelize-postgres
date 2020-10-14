@@ -1,26 +1,30 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define(
-    'User',
+    'user',
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'name'
       },
+      countyId: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        field: 'countyId'
+      },
     },
-    { tableName: 'users'}
   )
 
   User.associate = function (models) {
-    User.hasOne(models.County, {
+    User.hasMany(models.photo, {
       foreignKey: 'userId',
-      as: 'counties'
     })
 
-    User.hasMany(models.Car, {
-      foreignKey: 'carUserId',
-      as: 'cars'
+    User.belongsTo(models.county, {
+      foreignKey: 'countyId',
     })
+
+    User.belongsToMany(models.car, { through: 'userCars' });
   }
 
   return User

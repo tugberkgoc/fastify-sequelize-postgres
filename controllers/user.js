@@ -1,19 +1,21 @@
-const Car = require('../models').Car;
-const User = require('../models').User;
-const County = require('../models').County;
+const{car, user, county, city, photo} = require('../models')
 
 module.exports = {
   list(req, res) {
-    return User
+    return user
     .findAll({
       include: [
         {
-          model: County,
-          as: 'counties',
+          model: county,
+          include: [{
+            model: city,
+          }]
         },
         {
-          model: Car,
-          as: 'cars'
+          model: car,
+        },
+        {
+          model: photo,
         }
       ],
     })
@@ -24,17 +26,21 @@ module.exports = {
   },
 
   getById(req, res) {
-    return User
+    return user
     .findById(req.params.id,
       {
         include: [
           {
-            model: County,
-            as: 'counties',
+            model: county,
+            include: [{
+              model: city,
+            }]
           },
           {
-            model: Car,
-            as: 'cars'
+            model: car,
+          },
+          {
+            model: photo,
           }
         ],
       }
@@ -51,16 +57,17 @@ module.exports = {
   },
 
   add(req, res) {
-    return User
+    return user
     .create({
-      name: req.body.name
+      name: req.body.name,
+      countyId: req.body.countyId || user.countyId
     })
     .then((user) => res.status(201).send(user))
     .catch((error) => res.status(400).send(error));
   },
 
   update(req, res) {
-    return User
+    return user
     .findById(req.params.id)
     .then(user => {
       if (!user) {
@@ -70,7 +77,8 @@ module.exports = {
       }
       return user
       .update({
-        username: req.body.name || user.name
+        name: req.body.name || user.name,
+        countyId: req.body.countyId || user.countyId
       })
       .then(() => res.status(200).send(user))
       .catch((error) => res.status(400).send(error));
@@ -79,7 +87,7 @@ module.exports = {
   },
 
   delete(req, res) {
-    return User
+    return user
     .findById(req.params.id)
     .then(user => {
       if (!user) {

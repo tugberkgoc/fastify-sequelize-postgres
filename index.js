@@ -10,6 +10,7 @@ const userRoutes = require('./routes/user')
 const countyRoutes = require('./routes/county')
 const cityRoutes = require('./routes/city')
 const carRoutes = require('./routes/car')
+const photoRoutes = require('./routes/photo')
 
 // Declare a route
 fastify.get('/', (request, reply) => {
@@ -36,6 +37,9 @@ cityRoutes.forEach((route, index) => {
   fastify.route(route)
 })
 carRoutes.forEach((route, index) => {
+  fastify.route(route)
+})
+photoRoutes.forEach((route, index) => {
   fastify.route(route)
 })
 

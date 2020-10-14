@@ -1,25 +1,23 @@
 module.exports = (sequelize, DataTypes) => {
   const County = sequelize.define(
-    'County',
+    'county',
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
         field: 'name'
       },
-      userId: {
+      cityId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        field: 'userId'
+        field: 'cityId'
       },
     },
-    { tableName: 'counties'}
   )
 
   County.associate = function (models) {
-    County.hasOne(models.City, {
-      foreignKey: 'countyId',
-      as: 'cities'
+    County.belongsTo(models.city, {
+      foreignKey: 'cityId',
     })
   }
 
